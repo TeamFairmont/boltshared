@@ -59,6 +59,7 @@ type Config struct {
 			StubDelayMs              int64  `json:"stubDelayMs"`              //100
 			DebugFormEnabled         bool   `json:"debugFormEnabled"`         // true
 			MaxHTTPHeaderKBytes      int    `json:"maxHTTPHeaderKBytes"`      // 0 (default go http lib makes it 1MB)
+			QueuePrefix              string `json:"queuePrefix"`              // "" default, this string will be prefixed on the queue for every command name
 		} `json:"advanced"`
 	} `json:"engine"`
 
@@ -199,7 +200,8 @@ func DefaultConfig() (*Config, error) {
 				"shutdownResultExpiration": "30s",
 				"stubDelayMs": 100,
 				"stubMode": false,
-				"writeTimeout":"30s"
+				"writeTimeout":"30s",
+                "queuePrefix":""
 			}
 		},
 

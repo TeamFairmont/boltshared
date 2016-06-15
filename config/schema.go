@@ -201,7 +201,10 @@ const SCHEMA string = `
                             },
                             "debugFormEnabled": {
                                 "type": "boolean"
-                            }
+                            },
+                            "queuePrefix": {
+                                "type": "string"
+                            } 
                         }
                     }
                 }

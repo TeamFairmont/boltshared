@@ -4,6 +4,9 @@
 
 package config
 
+// ErrorQueueName is the name of the mq (minus prefix) where the engine waits for worker errors to log
+const ErrorQueueName = "BOLT_WORKER_ERROR"
+
 // TestConfigJSON is a barebones engine config to be used
 // by CreateTestEngine in unit tests
 const TestConfigJSON = `{

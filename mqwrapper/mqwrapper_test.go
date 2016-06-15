@@ -64,7 +64,7 @@ func TestPublishCommand(t *testing.T) {
 	}
 
 	if !t.Failed() {
-		err = PublishCommand(c.Channel, "test", "test", &gabs.Container{}, q.Name)
+		err = PublishCommand(c.Channel, "", "test", "test", &gabs.Container{}, q.Name)
 		assert.Nil(t, err, "Err is nil, we have a queue")
 	}
 }

@@ -107,7 +107,7 @@ func CreateConsumeNamedQueue(name string, ch *amqp.Channel) (*amqp.Queue, <-chan
 
 // PublishCommand pushes a processing command up to the MQ with its uuid, command name, and payload
 // The replyTo should normally be set to the queue.Name created via CreateConsumeTempQueue
-func PublishCommand(q *amqp.Channel, id string, command string, payload *gabs.Container, replyTo string) error {
+func PublishCommand(q *amqp.Channel, id string, prefix string, command string, payload *gabs.Container, replyTo string) error {
 	pub := amqp.Publishing{
 		DeliveryMode:  amqp.Persistent,
 		ContentType:   "text/json",
@@ -119,9 +119,9 @@ func PublishCommand(q *amqp.Channel, id string, command string, payload *gabs.Co
 	}
 
 	return q.Publish(
-		"",      // exchange
-		command, // routing key
-		false,   // mandatory
+		"",             // exchange
+		prefix+command, // routing key
+		false,          // mandatory
 		false,
 		pub)
 }
