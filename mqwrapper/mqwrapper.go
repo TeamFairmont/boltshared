@@ -8,6 +8,9 @@
 package mqwrapper
 
 import (
+	"crypto/tls"
+	"strings"
+
 	"github.com/TeamFairmont/amqp"
 	"github.com/TeamFairmont/gabs"
 )
@@ -28,7 +31,15 @@ func (c *Connection) Close() {
 // Be sure to defer the .Close() calls on both the connection and channel
 // Returns the Connection and an open Channel
 func ConnectMQ(amqpURL string) (*Connection, error) {
-	conn, err := amqp.Dial(amqpURL)
+	var conn *amqp.Connection
+	var err error
+
+	if strings.HasPrefix(amqpURL, "amqps") {
+		conn, err = amqp.DialTLS(amqpURL, &tls.Config{MinVersion: tls.VersionTLS12})
+	} else {
+		conn, err = amqp.Dial(amqpURL)
+	}
+
 	if err != nil {
 		return nil, err
 	}

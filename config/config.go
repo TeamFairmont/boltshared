@@ -341,9 +341,9 @@ func loadIndividualConfigs(customcfg *Config) (*Config, error) {
 		appendBuffer.WriteString(customcfg.Engine.ExtraConfigFolder)
 		appendBuffer.WriteString("/")
 		customcfg.Engine.ExtraConfigFolder = appendBuffer.String()
-		// For loading extra configs, only use the path set in config.json.  This ignore engine.json's extraConfigFolder.
-		extraConfigFolder = customcfg.Engine.ExtraConfigFolder
 	}
+	// For loading extra configs, only use the path set in config.json.  This ignore engine.json's extraConfigFolder.
+	extraConfigFolder = customcfg.Engine.ExtraConfigFolder
 
 	// Load each of the custom json files, if they exist, in the path specified in engine.extraConfigFolder
 	// The folder for additional config files can be specified in config.json - engine > extraConfigFolder
