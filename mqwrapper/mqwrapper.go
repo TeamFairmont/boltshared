@@ -15,6 +15,8 @@ import (
 	"github.com/TeamFairmont/gabs"
 )
 
+var closeCh = make(chan bool)
+
 // Connection holds amqp connection info
 type Connection struct {
 	Connection *amqp.Connection
@@ -84,6 +86,12 @@ func CreateConsumeTempQueue(ch *amqp.Channel) (*amqp.Queue, <-chan amqp.Delivery
 	return &q, res, nil
 }
 
+//CloseRes trying to close res in workerStub
+func CloseRes() {
+	//recieved by a go routine in CreateConsumeNamedQueue, then closes ch
+	closeCh <- true
+}
+
 // CreateConsumeNamedQueue uses an open channel to create a durable named queue
 // Returns the queue, the consume channel, and an error if either fails to create
 func CreateConsumeNamedQueue(name string, ch *amqp.Channel) (*amqp.Queue, <-chan amqp.Delivery, error) {
@@ -113,7 +121,14 @@ func CreateConsumeNamedQueue(name string, ch *amqp.Channel) (*amqp.Queue, <-chan
 		return &q, nil, err
 	}
 
+	//This is needed to close a go routine in workerStub
+	//when CloseRes() is called
+	go func() {
+		<-closeCh
+		ch.Close()
+	}()
 	return &q, res, nil
+
 }
 
 // PublishCommand pushes a processing command up to the MQ with its uuid, command name, and payload

@@ -9,9 +9,12 @@ import (
 	"reflect"
 	"strconv"
 	"strings"
+	"sync"
 
 	"github.com/TeamFairmont/gabs"
 )
+
+var lock = sync.RWMutex{}
 
 //isNumber determines if a datatype is a float64.
 //This is used to avoid panics when validating a requiredType of int64 or float64 and the received type is non-numeric.
@@ -100,6 +103,8 @@ func CheckPayloadStructure(payload *gabs.Container) error {
 	keys := []string{"initial_input", "return_value", "data", "trace", "debug", "nextCommand", "error", "config", "params"}
 
 	for k := range keys {
+		lock.RLock()
+		defer lock.RUnlock()
 		if !payload.Exists(keys[k]) {
 			return errors.New("Payload missing " + keys[k])
 		}

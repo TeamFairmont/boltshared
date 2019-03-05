@@ -216,6 +216,9 @@ const SCHEMA string = `
                     "level": {
                         "type": "string"
                     },
+                    "logStatsDuration":{
+                        "type": "string"
+                    },
                     "fsDebugPath": {
                         "type": "string"
                     },

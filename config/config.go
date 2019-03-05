@@ -67,6 +67,8 @@ type Config struct {
 		Type  string `json:"type"`  //fs, syslog, mongodb (or add more in bolt/logging.go)
 		Level string `json:"level"` //debug, info, warn, error, fatal, panic
 
+		LogStatsDuration string `json:"logStatsDuration"` // for logstats
+
 		//fs options
 		FsDebugPath string `json:"fsDebugPath"`
 		FsInfoPath  string `json:"fsInfoPath"`

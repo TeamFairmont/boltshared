@@ -143,10 +143,13 @@ func DecodeHMAC(key string, encodedmessage []byte, verifyTimeout int64) (decoded
 	}
 
 	decodedJSON, err := base64.URLEncoding.DecodeString(enc.Data)
-	// decodedJSON, err := base64.StdEncoding.DecodeString(enc.Data)
 	if err != nil {
-		return "Error decoding Data", err
+		decodedJSON, err = base64.StdEncoding.DecodeString(enc.Data)
+		if err != nil {
+			return "Error decoding Data", err
+		}
 	}
+
 	decodedSignature, err := base64.URLEncoding.DecodeString(enc.Signature)
 	// decodedSignature, err := base64.StdEncoding.DecodeString(enc.Signature)
 	if err != nil {
